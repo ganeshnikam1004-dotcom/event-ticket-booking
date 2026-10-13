@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventify - Event Ticket Booking System</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Styling - Level 2, 3 & 5 */
+        :root {
+            --primary-color: #ff6600;
+            --primary-dark: #e55c00;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --text-light: #b0b0b0;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        header {
+            background: rgba(18, 18, 18, 0.95);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero / Intro Section */
+        .hero {
+            padding: 140px 20px 80px;
+            text-align: center;
+            background: linear-gradient(rgba(18,18,18,0.8), rgba(18,18,18,0.9)), url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        /* Events Section */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+
+        .section-title span {
+            color: var(--primary-color);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .event-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .event-body {
+            padding: 20px;
+        }
+
+        .event-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+
+        .event-details {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .event-details p {
+            margin-bottom: 5px;
+        }
+
+        .event-details i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .btn-book {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-book:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Booking Form Section */
+        .booking-section {
+            background-color: #181818;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 700px;
+            margin: 60px auto 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .booking-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .booking-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--white);
+        }
+
+        .booking-form input, 
+        .booking-form select {
+            width: 100%;
+            padding: 12px;
+            background-color: #252525;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: var(--white);
+            font-size: 15px;
+        }
+
+        .booking-form input:focus, 
+        .booking-form select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-msg {
+            color: #2ecc71;
+            font-size: 15px;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d0d0d;
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            margin-top: 60px;
+            border-top: 1px solid #222;
+        }
+
+        /* Responsive Design (Level 5) */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .booking-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation (Level 1) -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">Event<span>ify</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#booking">Booking</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Introduction Section (Level 1) -->
+    <section id="home" class="hero">
+        <h1>Book Your Favorite <span>Events</span> Instantly</h1>
+        <p>Explore top-tier movies, high-voltage sports tournaments, and live musical concerts. Secure your tickets with a seamless digital experience.</p>
+    </section>
+
+    <!-- Event Listing & Cards (Level 2 & Level 3) -->
+    <main class="container" id="events">
+        <h2 class="section-title">Upcoming <span>Events</span></h2>
+        
+        <div class="events-grid">
+            <!-- Event 1 -->
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=500&q=80" alt="Concert" class="event-img">
+                <div class="event-body">
+                    <h3 class="event-title">Rock Music Festival</h3>
+                    <div class="event-details">
+                        <p><i class="fa-solid fa-location-dot"></i> Mumbai Arena</p>
+                        <p><i class="fa-solid fa-calendar-days"></i> Oct 25, 2026</p>
+                        <p><i class="fa-solid fa-ticket"></i> ₹999 onwards</p>
+                    </div>
+                    <button class="btn-book" onclick="selectEvent('Rock Music Festival')">Book Ticket</button>
+                </div>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80" alt="Movie" class="event-img">
+                <div class="event-body">
+                    <h3 class="event-title">Sci-Fi Movie Premiere</h3>
+                    <div class="event-details">
+                        <p><i class="fa-solid fa-location-dot"></i> PVR Cinemas, Pune</p>
+                        <p><i class="fa-solid fa-calendar-days"></i> Nov 02, 2026</p>
+                        <p><i class="fa-solid fa-ticket"></i> ₹350 onwards</p>
+                    </div>
+                    <button class="btn-book" onclick="selectEvent('Sci-Fi Movie Premiere')">Book Ticket</button>
+                </div>
+            </div>
+
+            <!-- Event 3 (Fixed Kabaddi Image) -->
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=600&q=80" alt="Pro Kabaddi League" class="event-img">
+                <div class="event-body">
+                    <h3 class="event-title">Pro Kabaddi League</h3>
+                    <div class="event-details">
+                        <p><i class="fa-solid fa-location-dot"></i> Balewadi Stadium</p>
+                        <p><i class="fa-solid fa-calendar-days"></i> Nov 15, 2026</p>
+                        <p><i class="fa-solid fa-ticket"></i> ₹500 onwards</p>
+                    </div>
+                    <button class="btn-book" onclick="selectEvent('Pro Kabaddi League')">Book Ticket</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Form & Interaction Section (Level 4) -->
+        <section class="booking-section" id="booking">
+            <h2 class="section-title" style="font-size: 24px; margin-bottom: 20px;">Ticket <span>Booking Form</span></h2>
+            <form class="booking-form" id="bookingForm" onsubmit="handleBooking(event)">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name">
+                    <div class="error-msg" id="nameError">Please enter your name.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <div class="error-msg" id="emailError">Please enter a valid email.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="selectedEvent">Selected Event</label>
+                    <select id="selectedEvent">
+                        <option value="">-- Choose an Event --</option>
+                        <option value="Rock Music Festival">Rock Music Festival</option>
+                        <option value="Sci-Fi Movie Premiere">Sci-Fi Movie Premiere</option>
+                        <option value="Pro Kabaddi League">Pro Kabaddi League</option>
+                    </select>
+                    <div class="error-msg" id="eventError">Please select an event.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticketCount">Number of Tickets</label>
+                    <input type="number" id="ticketCount" min="1" max="10" value="1">
+                </div>
+
+                <button type="submit" class="btn-book">Confirm Booking</button>
+                <div class="success-msg" id="successMessage">🎉 Ticket booked successfully! Confirmation sent to your email.</div>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer Section (Level 5) -->
+    <footer id="contact">
+        <p>&copy; 2026 Eventify Ticket Booking System. All Rights Reserved.</p>
+        <p style="font-size: 13px; margin-top: 5px; color: #888;">Support: support@eventify.com | Contact: +91 9876543210</p>
+    </footer>
+
+    <!-- JavaScript Interactivity (Level 4) -->
+    <script>
+        function selectEvent(eventName) {
+            const dropdown = document.getElementById('selectedEvent');
+            dropdown.value = eventName;
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleBooking(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const selectedEvent = document.getElementById('selectedEvent').value;
+            
+            let isValid = true;
+
+            if (name === "") {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('nameError').style.display = 'none';
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+            }
+
+            if (selectedEvent === "") {
+                document.getElementById('eventError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('eventError').style.display = 'none';
+            }
+
+            if (isValid) {
+                const successMsg = document.getElementById('successMessage');
+                successMsg.style.display = 'block';
+
+                setTimeout(() => {
+                    document.getElementById('bookingForm').reset();
+                    successMsg.style.display = 'none';
+                }, 4000);
+            }
+        }
+    </script>
+</body>
+</html>
